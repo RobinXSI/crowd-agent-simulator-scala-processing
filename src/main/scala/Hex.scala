@@ -116,4 +116,6 @@ case class OffsetCoord(col: Int, row: Int) {
     val s = -q - r
     Hex(q, r, s)
   }
+
+  override def toString: String = "(" + col + "," + row + ")"
 }
