@@ -12,10 +12,7 @@ class Main extends PApplet {
     val size = Point(10, 10)
     val center = Point(200, 200)
     layout = Layout(orientaiton, size, center)
-  }
 
-
-  override def draw(): Unit = {
     background(255)
 
 
@@ -23,15 +20,23 @@ class Main extends PApplet {
     for (r: Int <- 0 to mapWidth) {
       val rOffset: Int = math.floor(r / 2).toInt
       for (q: Int <- (-rOffset) to (mapWidth - rOffset)) {
-        val corners: Vector[Point] = layout.polygonCorners(Hex(q, r, -q - r))
+        val hex: Hex = Hex(q, r, -q - r)
+        val corners: Vector[Point] = layout.polygonCorners(hex)
         stroke(0)
         fill(128)
         beginShape()
         corners.foreach(c => vertex(c.x.toFloat, c.y.toFloat))
         endShape()
+
+        println(hex.roffsetFromCube(r))
       }
     }
-    
+  }
+
+
+  override def draw(): Unit = {
+
+
   }
 }
 

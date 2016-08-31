@@ -21,6 +21,18 @@ case class Hex(q: Int, r: Int, s: Int) {
 
   def neighbor(direction: Direction): Hex = this + direction
 
+  def qoffsetFromCube(offset: Int): OffsetCoord = {
+    val col = q
+    val row = r + (q + offset * (q & 1)) / 2
+    OffsetCoord(col, row)
+  }
+
+  def roffsetFromCube(offset: Int): OffsetCoord = {
+    val col = q + (r + offset * (r & 1)) / 2
+    val row = r
+    OffsetCoord(col, row)
+  }
+
 }
 
 // used for rounding problems from pixel to hex
@@ -89,3 +101,19 @@ case class Layout(orientation: Orientation, size: Point, origin: Point) {
 }
 
 case class Point(x: Double, y: Double)
+
+case class OffsetCoord(col: Int, row: Int) {
+  def qoffsetToCube(offset: Int): Hex = {
+    val q = col
+    val r = row - (col + offset * (col & 1)) / 2
+    val s = -q - r
+    Hex(q, r, s)
+  }
+
+  def roffsetToCube(offset: Int): Hex = {
+    val q = col - (row + offset * (row & 1)) / 2
+    val r = row
+    val s = -q - r
+    Hex(q, r, s)
+  }
+}
