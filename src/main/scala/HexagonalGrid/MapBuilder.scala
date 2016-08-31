@@ -5,7 +5,8 @@ import Cell._
 import scala.io.Source
 
 object MapBuilder {
-  def createMap(filename: String): HexMap = new HexMap(createCellGrid(filename))
+  var goal: OffsetCoord = _
+  def createMap(filename: String): HexMap = new HexMap(createCellGrid(filename), goal)
 
   def createLineOfCellGrid(line: String, indexY: Int): Vector[Cell] = (for {
     (char, indexX) <- line.toList.zipWithIndex
@@ -19,6 +20,9 @@ object MapBuilder {
     char match {
       case 'x' => Wall
       case '.' => Empty
+      case 'o' => {
+        Goal
+      }
     }
   }
 

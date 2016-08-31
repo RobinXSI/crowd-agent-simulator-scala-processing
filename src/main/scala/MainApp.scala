@@ -37,10 +37,10 @@ class Main extends PApplet {
         val cell: Cell = hexMap.get(offsetCoord)
         val center = layout.hexToPixel(hex)
         val corners: Vector[Point] = layout.polygonCorners(hex)
-        println(corners.length)
 
         cell.state match {
           case Wall => fill(128)
+          case Goal => fill(0, 255, 0)
           case Empty => fill(255)
         }
 
