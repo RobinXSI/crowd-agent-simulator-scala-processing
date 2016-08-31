@@ -1,32 +1,27 @@
+import HexagonalGrid._
 import processing.core.PApplet
 
 class Main extends PApplet {
   var layout: Layout = _
+  var hexMap: HexMap = _
 
   override def settings(): Unit = {
     size(1200, 1200)
   }
 
   override def setup(): Unit = {
-    val orientaiton = HexOrientation.Pointy
+    val orientation = HexOrientation.Pointy
     val size = Point(40, 40)
     val center = Point(200, 200)
-    layout = Layout(orientaiton, size, center)
+
+    hexMap = MapBuilder.createMap(System.getProperty("user.dir") + "/src/resources/maps/map1.txt")
+    layout = Layout(orientation, size, center)
 
     background(255)
-
-
-    val mapWidth = 50
-    for (r: Int <- 0 to mapWidth) {
-      val rOffset: Int = math.floor(r / 2).toInt
-      for (q: Int <- (-rOffset) to (mapWidth - rOffset)) {
-
-
-        val hex: Hex = Hex(q, r, -q - r)
-        val cube: OffsetCoord = hex.offsetFromCube(r)
-
-        assert(cube.row == r)
-        assert(hex == hex.offsetFromCube(r).offsetToCube(r), (hex, cube.offsetToCube(r)))
+    for (i <- 0 until hexMap.height) {
+      for (j <- 0 until hexMap.width) {
+        val offsetCoord = OffsetCoord(i, j)
+        val hex: Hex = offsetCoord.offsetToCube
 
         val corners: Vector[Point] = layout.polygonCorners(hex)
         stroke(0)
@@ -39,8 +34,7 @@ class Main extends PApplet {
         textSize(10)
         fill(0)
 
-        text(cube.toString, center.x.toFloat - 20, center.y.toFloat + 10)
-        text(r, center.x.toFloat - 20, center.y.toFloat)
+        text(offsetCoord.toString, center.x.toFloat - 10, center.y.toFloat)
       }
     }
   }

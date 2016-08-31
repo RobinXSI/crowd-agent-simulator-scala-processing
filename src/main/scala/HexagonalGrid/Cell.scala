@@ -1,0 +1,5 @@
+package HexagonalGrid
+
+class Cell {
+
+}
