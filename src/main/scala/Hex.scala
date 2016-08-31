@@ -69,10 +69,9 @@ case class Layout(orientation: Orientation, size: Point, origin: Point) {
 
   def polygonCorners(h: Hex): Vector[Point] = {
     val center = hexToPixel(h)
-    val corners: Vector[Point] = 1 to 6 map (i => {
-      val offset: Point = hexCornerOffset(i)
-      Point(center.x + offset.x, center.y + offset.y)
-    }).to[Vector]
+    (for {i <- 1 to 6}
+      yield Point(center.x + hexCornerOffset(i).x, center.y + hexCornerOffset(i).y)).toVector
+
   }
 }
 
