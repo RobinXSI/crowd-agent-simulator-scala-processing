@@ -28,8 +28,6 @@ class Main extends PApplet {
         assert(cube.row == r)
         assert(hex == hex.offsetFromCube(r).offsetToCube(r), (hex, cube.offsetToCube(r)))
 
-
-
         val corners: Vector[Point] = layout.polygonCorners(hex)
         stroke(0)
         fill(128)
@@ -42,6 +40,7 @@ class Main extends PApplet {
         fill(0)
 
         text(cube.toString, center.x.toFloat - 20, center.y.toFloat + 10)
+        text(r, center.x.toFloat - 20, center.y.toFloat)
       }
     }
   }
