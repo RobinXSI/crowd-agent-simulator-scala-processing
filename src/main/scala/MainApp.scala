@@ -1,8 +1,13 @@
 import processing.core.PApplet
 
 class Main extends PApplet {
+  var layout: Layout = _
 
   override def setup(): Unit = {
+    val orientaiton = HexOrientation.Pointy
+    val size = Point(10, 10)
+    val center = Point(25, 25)
+    layout = Layout(orientaiton, size, center)
   }
 
   override def settings(): Unit = {
