@@ -1,3 +1,4 @@
+import Cell._
 import HexagonalGrid._
 import processing.core.PApplet
 
@@ -22,15 +23,20 @@ class Main extends PApplet {
       for (j <- 0 until hexMap.width) {
         val offsetCoord = OffsetCoord(i, j)
         val hex: Hex = offsetCoord.offsetToCube
-
+        val cell: Cell = hexMap.get(offsetCoord)
+        val center = layout.hexToPixel(hex)
         val corners: Vector[Point] = layout.polygonCorners(hex)
+
+        cell.state match {
+          case Wall => fill(0)
+          case Empty => fill(255)
+        }
+
         stroke(0)
-        fill(128)
         beginShape()
         corners.foreach(c => vertex(c.x.toFloat, c.y.toFloat))
         endShape()
 
-        val center = layout.hexToPixel(hex)
         textSize(10)
         fill(0)
 
