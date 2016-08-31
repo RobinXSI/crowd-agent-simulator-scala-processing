@@ -9,7 +9,7 @@ class Main extends PApplet {
 
   override def setup(): Unit = {
     val orientaiton = HexOrientation.Pointy
-    val size = Point(40, 40)
+    val size = Point(10, 10)
     val center = Point(200, 200)
     layout = Layout(orientaiton, size, center)
   }
@@ -17,14 +17,21 @@ class Main extends PApplet {
 
   override def draw(): Unit = {
     background(255)
-    val pixel: Point = layout.hexToPixel(Hex(0, 0, 0))
-    val corners: Vector[Point] = layout.polygonCorners(Hex(0, 0, 0))
-    println(corners)
-    stroke(0)
-    fill(128)
-    beginShape()
-    corners.foreach(c => vertex(c.x.toFloat, c.y.toFloat))
-    endShape()
+
+
+    val mapWidth = 10
+    for (r: Int <- 0 to mapWidth) {
+      val rOffset: Int = math.floor(r / 2).toInt
+      for (q: Int <- (-rOffset) to (mapWidth - rOffset)) {
+        val corners: Vector[Point] = layout.polygonCorners(Hex(q, r, -q - r))
+        stroke(0)
+        fill(128)
+        beginShape()
+        corners.foreach(c => vertex(c.x.toFloat, c.y.toFloat))
+        endShape()
+      }
+    }
+    
   }
 }
 
