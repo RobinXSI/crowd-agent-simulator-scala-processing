@@ -1,6 +1,5 @@
 import Direction.Direction
 
-// TODO: maybe rename to x, y, z
 // TODO: maybe refactor to array for SIMD operations and vector operations
 case class Hex(q: Int, r: Int, s: Int) {
   def this(q: Int, r: Int) = this(q, r, -q - r)
@@ -13,25 +12,20 @@ case class Hex(q: Int, r: Int, s: Int) {
 
   def *(n: Double): Hex = Hex((this.q * n).toInt, (this.r * n).toInt, (this.s * n).toInt)
 
-  //  def /(n: Double): Hex = Hex((this.q / n).toInt, (this.r / n).toInt, (this.s / n).toInt)
-
   def length: Int = (math.abs(q) + math.abs(r) + math.abs(s)) / 2
 
   def distance(that: Hex): Int = (this - that).length
 
   def neighbor(direction: Direction): Hex = this + direction
 
-  def qoffsetFromCube(offset: Int): OffsetCoord = {
-    val col = q
-    val row = r + (q + offset * (q & 1)) / 2
-    OffsetCoord(col, row)
-  }
-
-  def roffsetFromCube(offset: Int): OffsetCoord = {
+  def offsetFromCube(offset: Int): OffsetCoord = {
     val col = q + (r + offset * (r & 1)) / 2
     val row = r
     OffsetCoord(col, row)
   }
+
+  override def toString: String = "(" + q + "," + r + "," + s + ")"
+
 
 }
 
@@ -103,14 +97,8 @@ case class Layout(orientation: Orientation, size: Point, origin: Point) {
 case class Point(x: Double, y: Double)
 
 case class OffsetCoord(col: Int, row: Int) {
-  def qoffsetToCube(offset: Int): Hex = {
-    val q = col
-    val r = row - (col + offset * (col & 1)) / 2
-    val s = -q - r
-    Hex(q, r, s)
-  }
 
-  def roffsetToCube(offset: Int): Hex = {
+  def offsetToCube(offset: Int): Hex = {
     val q = col - (row + offset * (row & 1)) / 2
     val r = row
     val s = -q - r
