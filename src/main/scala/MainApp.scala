@@ -20,7 +20,7 @@ class Main extends PApplet {
     val goal: Hex = hexMap.goal
     new PathFindingAlgorithm(hexMap).findPath(goal)
 
-    agents = Vector(new Agent(Point(120, 130), 5, 5))
+    agents = Vector(new Agent(Point(50, 50), 5, 5))
 
 
 
@@ -80,9 +80,19 @@ class Main extends PApplet {
 
 
   override def draw(): Unit = {
+    // visualize
+    agents.foreach(a => {
+      fill(255, 0, 0)
+      ellipse(a.position.x.toFloat, a.position.y.toFloat, 4, 4)
+    })
+
     for {
       agent <- agents
     } test(agent)
+
+
+
+
   }
 
   def test(agent: Agent) = {
