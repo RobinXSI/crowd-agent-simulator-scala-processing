@@ -3,6 +3,13 @@ package HexagonalGrid
 import Cell._
 
 class HexMap(map: Vector[Vector[Cell]]) {
+
+  def filterCoord(coord: Hex): Option[Hex] = {
+    val index: OffsetCoord = coord.offsetFromCube
+    if (index.row >= 0 && index.row < height && index.col >= 0 && index.col < width) Some(coord)
+    else None
+  }
+
   def filterAccessibleCoords(currentNeighbors: Vector[Hex]): Vector[Hex] = currentNeighbors.filter(n => {
     val index: OffsetCoord = n.offsetFromCube
     val inGrid = index.row >= 0 && index.row < height && index.col >= 0 && index.col < width

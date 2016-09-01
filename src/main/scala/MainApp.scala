@@ -6,6 +6,7 @@ import processing.core.PApplet
 class Main extends PApplet {
   var layout: Layout = _
   var hexMap: HexMap = _
+  var agents: Vector[Agent] = _
 
   override def settings(): Unit = {
     size(1200, 400)
@@ -18,6 +19,10 @@ class Main extends PApplet {
     hexMap = MapBuilder.createMap(System.getProperty("user.dir") + "/src/resources/maps/map1.txt")
     val goal: Hex = hexMap.goal
     new PathFindingAlgorithm(hexMap).findPath(goal)
+
+    agents = Vector(new Agent(Point(120, 130), 5, 5))
+
+
 
 
 
@@ -69,16 +74,20 @@ class Main extends PApplet {
           val pointer = center + halfLine.normalize() * halfLine.mag() / 3
           line(center.x.toFloat, center.y.toFloat, pointer.x.toFloat, pointer.y.toFloat)
         }
-
-
       }
     }
   }
 
 
   override def draw(): Unit = {
+    for {
+      agent <- agents
+    } test(agent)
+  }
 
-
+  def test(agent: Agent) = {
+    agent.follow(layout, hexMap)
+    agent.run()
   }
 }
 
