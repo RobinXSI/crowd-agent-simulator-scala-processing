@@ -3,20 +3,22 @@ package HexagonalGrid
 import Cell._
 
 class HexMap(map: Vector[Vector[Cell]]) {
-  def filterAccessibleCoords(currentNeighbors: Vector[Hex]): Vector[Hex] = {
-    
-    currentNeighbors
-  }
+  def filterAccessibleCoords(currentNeighbors: Vector[Hex]): Vector[Hex] = currentNeighbors.filter(n => {
+    val index: OffsetCoord = n.offsetFromCube
+    val inGrid = index.row >= 0 && index.row < height && index.col >= 0 && index.col < width
+    if (!inGrid) false
+    else get(index).state != Wall
+  })
 
   val height = map.length
-
-
   val width = map(0).length
+
   def get(offsetCoord: OffsetCoord): Cell = map(offsetCoord.row)(offsetCoord.col)
 
   def get(hex: Hex): Cell = get(hex.offsetFromCube)
+
   def goal: Hex = {
-    val indices = for{
+    val indices = for {
       (a, i) <- map.iterator.zipWithIndex
       (c, j) <- a.iterator.zipWithIndex
       if c.state == Goal

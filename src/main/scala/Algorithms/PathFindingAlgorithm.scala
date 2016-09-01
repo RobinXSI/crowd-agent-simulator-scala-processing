@@ -23,7 +23,7 @@ class PathFindingAlgorithm(map: HexMap) {
       val currentNeighbors = current.coord.neighbors // todo filter by accessible
       val accessibleNeighbors: Vector[Hex] = map.filterAccessibleCoords(currentNeighbors)
 
-      currentNeighbors.foreach(next => {
+      accessibleNeighbors.foreach(next => {
         val newCost = current.cost + map.getCost(current.coord, next)
         val costSoFar: Option[CostPerCell] = visited find { v => v.coord == next }
         costSoFar match {
