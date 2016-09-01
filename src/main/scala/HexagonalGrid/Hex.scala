@@ -20,6 +20,17 @@ case class Hex(q: Int, r: Int, s: Int) {
 
   def neighbor(direction: Direction): Hex = this + direction
 
+  def neighbors: Vector[Hex] = {
+    Vector(
+      neighbor(Direction.NorthEast),
+      neighbor(Direction.East),
+      neighbor(Direction.SouthEast),
+      neighbor(Direction.SouthWest),
+      neighbor(Direction.West),
+      neighbor(Direction.NorthWest)
+    )
+  }
+
   def offsetFromCube: OffsetCoord = {
     val col = q + (r + r * (r & 1)) / 2 - (r & 1) * (r + 1) / 2
     val row = r

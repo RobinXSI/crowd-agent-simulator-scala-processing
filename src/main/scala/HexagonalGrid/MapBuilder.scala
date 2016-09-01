@@ -5,12 +5,11 @@ import Cell._
 import scala.io.Source
 
 object MapBuilder {
-  var goal: OffsetCoord = _
-  def createMap(filename: String): HexMap = new HexMap(createCellGrid(filename), goal)
+  def createMap(filename: String): HexMap = new HexMap(createCellGrid(filename))
 
   def createLineOfCellGrid(line: String, indexY: Int): Vector[Cell] = (for {
     (char, indexX) <- line.toList.zipWithIndex
-  } yield Cell(typeFromChar(char))).toVector
+  } yield new Cell(typeFromChar(char))).toVector
 
   def createCellGrid(pathToFile: String): Vector[Vector[Cell]] = (for {
     (line, indexY) <- Source.fromFile(pathToFile).getLines().zipWithIndex

@@ -1,5 +1,6 @@
 import Cell._
 import HexagonalGrid._
+import Algorithms._
 import processing.core.PApplet
 
 class Main extends PApplet {
@@ -15,6 +16,11 @@ class Main extends PApplet {
 
   override def setup(): Unit = {
     hexMap = MapBuilder.createMap(System.getProperty("user.dir") + "/src/resources/maps/map1.txt")
+    val goal: Hex = hexMap.goal
+    new PathFindingAlgorithm(hexMap).findPath(goal)
+
+
+
     val margin = 10
 
 
@@ -22,7 +28,6 @@ class Main extends PApplet {
     val h = (height - 2 * margin) / (hexMap.height + 7 / 8)
     val cellWidth = math.min(w, h)
     val size = widthToSize(cellWidth  / 2)
-
 
     val orientation = HexOrientation.Pointy
     val center = Point(cellWidth / 2 + margin, size + margin)

@@ -1,3 +1,7 @@
 package Cell
 
-case class Cell(state: CellState)
+import HexagonalGrid.Hex
+
+class Cell(val state: CellState) {
+  var goto: Hex = _
+}
