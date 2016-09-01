@@ -1,6 +1,5 @@
 package Algorithms
 
-import Cell._
 import HexagonalGrid.{HexMap, Hex}
 
 case class CostPerCell(cost: Int, coord: Hex)

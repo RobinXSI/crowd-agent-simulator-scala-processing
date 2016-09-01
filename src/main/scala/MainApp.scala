@@ -57,7 +57,16 @@ class Main extends PApplet {
         textSize(10)
         fill(0)
 
+
+
         text(offsetCoord.toString, center.x.toFloat - 10, center.y.toFloat)
+
+        if (cell.goto != null) {
+          val gotoCenter = layout.hexToPixel(cell.goto)
+          line(center.x.toFloat, center.y.toFloat, gotoCenter.x.toFloat, gotoCenter.y.toFloat)
+        }
+
+
       }
     }
   }
