@@ -20,7 +20,7 @@ class Main extends PApplet {
     val goal: Hex = hexMap.goal
     new PathFindingAlgorithm(hexMap).findPath(goal)
 
-    agents = Vector(new Agent(Point(50, 50), 5, 5))
+    agents = Vector(new Agent(Point(50, 50), 7, 3))
 
 
 

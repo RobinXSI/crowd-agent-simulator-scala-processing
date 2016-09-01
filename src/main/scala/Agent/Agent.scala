@@ -1,4 +1,4 @@
-import Cell.Cell
+import Cell._
 import HexagonalGrid.{Hex, HexMap, Layout, Point}
 
 class Agent(var position: Point, maxSpeed: Double, maxForce: Double) {
@@ -16,16 +16,27 @@ class Agent(var position: Point, maxSpeed: Double, maxForce: Double) {
   }
 
   def follow(layout: Layout, map: HexMap): Unit = {
-    val orNull: Hex = map.filterCoord(layout.pixelToHex(position).hexRound).orNull
-    val maybeCell: Cell = map.get(orNull)
+    val actualHexCoord: Hex = map.filterCoord(layout.pixelToHex(position).hexRound).orNull
+    val actualCell: Cell = map.get(actualHexCoord)
+    if (actualCell.state == Goal) {
+      acceleration = Point(0,0)
+      velocity = Point(0,0)
+    } else {
+      if (actualCell.goto != null) {
+        // What is the vector at that spot in the flow field? Scale it up by maxspeed
+        val desired: Point = (layout.hexToPixel(actualCell.goto) - layout.hexToPixel(actualHexCoord)) * maxSpeed
 
-    // What is the vector at that spot in the flow field? Scale it up by maxspeed
-    val desired: Point = (layout.hexToPixel(maybeCell.goto) - layout.hexToPixel(orNull)) * maxSpeed
+        //    val desired: Point = maybeCell.goto.orNull.position * maxSpeed // TODO: Test if goto is needed for desired
+        // Steering is desired minus velocity
+        val steer: Point = (desired - velocity) limit maxForce
+        applyForce(steer)
+      }
 
-    //    val desired: Point = maybeCell.goto.orNull.position * maxSpeed // TODO: Test if goto is needed for desired
-    // Steering is desired minus velocity
-    val steer: Point = (desired - velocity) limit maxForce
-    applyForce(steer)
+    }
+
+
+
+
   }
 
   def applyForce(force: Point): Unit = {
