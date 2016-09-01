@@ -43,27 +43,31 @@ class Main extends PApplet {
         val center = layout.hexToPixel(hex)
         val corners: Vector[Point] = layout.polygonCorners(hex)
 
+        // set cell color
         cell.state match {
           case Wall => fill(128)
           case Goal => fill(0, 255, 0)
           case Empty => fill(255)
         }
 
+        // draw hexagon
         stroke(0)
         beginShape()
         corners.foreach(c => vertex(c.x.toFloat, c.y.toFloat))
         endShape(2) // Mode close == 2
 
+        // show coordinate
         textSize(10)
         fill(0)
-
-
-
         text(offsetCoord.toString, center.x.toFloat - 10, center.y.toFloat)
 
+
+        // draw direction
         if (cell.goto != null) {
           val gotoCenter = layout.hexToPixel(cell.goto)
-          line(center.x.toFloat, center.y.toFloat, gotoCenter.x.toFloat, gotoCenter.y.toFloat)
+          val halfLine = gotoCenter - center
+          val pointer = center + halfLine.normalize() * halfLine.mag() / 3
+          line(center.x.toFloat, center.y.toFloat, pointer.x.toFloat, pointer.y.toFloat)
         }
 
 
